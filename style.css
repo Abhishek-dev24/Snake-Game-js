@@ -14,6 +14,7 @@ html , body {
 :root {
     /* BG Color */
     --bg-primary-color : #0d0b0f;
+    --bg-fill-color : #efd2c5;
 
     /* text color */
     --text-primary-color : #f4efef;
@@ -78,10 +79,18 @@ section, .info{
     flex-grow: 1;
     min-height: 400px;
     width: 100%;
-}
+    display: grid;
+    grid-template-columns: repeat(auto-fill , minmax(30px , 1fr));  /* each block is 30px wide */
+    grid-template-rows: repeat(auto-fill , minmax(30px , 1fr)) ; /* each block is 30px tall */
+    gap: 0px;
+} 
 
 .block {
     width: 30px;
     height: 30px;
     border: 1px solid var(--border-primary-color);
+}
+
+.fill {
+    background-color: var(--bg-fill-color);
 }
