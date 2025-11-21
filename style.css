@@ -15,6 +15,7 @@ html , body {
     /* BG Color */
     --bg-primary-color : #0d0b0f;
     --bg-fill-color : #efd2c5;
+    --bg-food-color : #e10d18;
 
     /* text color */
     --text-primary-color : #f4efef;
@@ -93,4 +94,56 @@ section, .info{
 
 .fill {
     background-color: var(--bg-fill-color);
+}
+
+.food {
+    background-color: var(--bg-food-color);
+}   
+
+.model {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.581);
+    backdrop-filter: blur( 4px );
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.model .start-game , 
+.model .game-over {
+    background-color: var(--bg-primary-color); 
+    padding: var(--space-3xl);
+    border: 2px solid var(--border-primary-color);  
+    border-radius: var(--border-radius-md);
+    text-align: center;
+}
+
+.btn{
+    padding: var(--space-sm) var(--space-md);
+    margin-top: var(--space-lg);
+    font-size: 20px;
+    border: none;
+    border-radius: var(--border-radius-sm);
+    background-color: var(--bg-fill-color);
+    color: var(--bg-primary-color);
+    cursor: pointer;
+    transition: all 0.3s ease ;
+}
+.btn:hover {
+    background-color: var(--bg-food-color);
+    color: var(--text-primary-color);
+    transform: scale(1.1);
+}
+
+.model .game-over {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
 }

@@ -1,33 +1,43 @@
 const playground = document.querySelector('.playground');
+const startBtn = document.querySelector('.btn-start');
+const model = document.querySelector('.model');
+const welcomeBox = document.querySelector('.start-game');
+const gameOverBox = document.querySelector('.game-over');
+const restartBtn = document.querySelector('.model .btn-restart');
+const highScore = document.querySelector('#high-score');
+const score = document.querySelector('#score');
+const time = document.querySelector('#time');
 
-// Create some variables for block size
-const blockHeight = 30; // height of each block in px
-const blockWidth = 30;  // width of each block in px
+const blockHeight = 30;
+const blockWidth = 30;
 
-// columnes nikal ne ke liyee eka simple function hai ki playground area ki width leke usko 30 se divide kar deke
+let highScoreValue = 0;
+let scoreValue = 0;
+let timeValue = `00:00`;
 
+// Playground ki width/height se kitni rows aur columns aa sakte hai wo nikal rahe hai
 const cols = Math.floor(playground.clientWidth / blockWidth);
 const rows = Math.floor(playground.clientHeight / blockHeight);
-const totalBlocks = cols * rows;
-let IntervalId = null ;
 
+let IntervalId = null;
 
-let blocks = []; // array to hold all blocks
-let snake = [ 
-    { x : 1 , y : 2 } ,
-    { x : 1 , y : 3 } ,
-    { x : 1 , y : 4 } 
-]; // initial snake position
+// Food object
+let food = {
+    x: Math.floor(Math.random() * rows),
+    y: Math.floor(Math.random() * cols)
+};
+
+// Snake initial positions
+// Snake ek array hai jisme har element ek block ka coordinate hota hai.
+let snake = [
+    { x: 1, y: 2 },
+    { x: 1, y: 3 },
+    { x: 1, y: 4 }
+];
+
 let direction = "right";
 
-// ab humein totalBlocks ke hisaab se blocks create karne hai aur unko playground mein add karna hai
-// for (let i = 0; i < totalBlocks; i++) {
-//     const block = document.createElement('div');
-//     block.classList.add('block');
-//     playground.appendChild(block);
-// }
-
-// we are using nested loops to create blocks row by row and column by column
+// Create blocks
 for (let r = 0; r < rows; r++) {
     for (let c = 0; c < cols; c++) {
         const block = document.createElement('div');
@@ -36,71 +46,120 @@ for (let r = 0; r < rows; r++) {
     }
 }
 
-let render = () => {
-    snake .forEach( segment => {
-        const index = segment.x * cols + segment.y;
-        const block = playground.children[index];  
-        block.classList.add('fill');
-    })
+// Clear all blocks before rendering
+function clearBlocks() {
+    playground.querySelectorAll('.fill').forEach(b => b.classList.remove('fill'));
+    playground.querySelectorAll('.food').forEach(b => b.classList.remove('food'));
 }
 
-IntervalId = setInterval(() => {
+function render() {
+    clearBlocks();
 
-    let snakeHead = null ;
+    // Render food
+    const foodIndex = food.x * cols + food.y;
+    playground.children[foodIndex].classList.add('food');
 
-    if( direction === "left" ) {
-        snakeHead = { x : snake[0].x , y : snake[0].y - 1 } ;
-    } else if( direction === "right" ) {
-        snakeHead = { x : snake[0].x , y : snake[0].y + 1 } ;
-    } else if( direction === "up" ) {
-        snakeHead = { x : snake[0].x - 1 , y : snake[0].y } ;
-    } else if( direction === "down" ) {
-        snakeHead = { x : snake[0].x + 1 , y : snake[0].y } ;
-    }
+    // Render snake
+    // Har segment ke liye uske corresponding block ko fill karna
+    snake.forEach(seg => {
+        const index = seg.x * cols + seg.y;
+        playground.children[index].classList.add('fill');
+    });
+}
 
-    if( snakeHead.x < 0 || snakeHead.x >= rows || snakeHead.y < 0 || snakeHead.y >= cols ) {
-        alert("Game Over") ;
-        clearInterval( IntervalId ) ;
+function moveSnake() {
+    let head = { ...snake[0] };  // Current head position
+    // Update head position based on direction
+
+    //Direction ke hisab se head ki position update karna
+    if (direction === "left") head.y--;
+    if (direction === "right") head.y++;
+    if (direction === "up") head.x--;
+    if (direction === "down") head.x++;
+
+    // Collision check
+    if (head.x < 0 || head.x >= rows || head.y < 0 || head.y >= cols) {
+        clearInterval(IntervalId);
+        model.style.display = "flex";
+        welcomeBox.style.display = "none";
+        gameOverBox.style.display = "flex";
         return;
     }
 
-    snake.forEach( segment => {
-        const index = segment.x * cols + segment.y ;
-        const block = playground.children[index] ;
-        block.classList.remove('fill') ;
-    }) ;
+    snake.unshift(head);  // New head add karna
 
-    snake.unshift( snakeHead ) ;
-    snake.pop() ;
-    
-    render();
-}, 600);
+    // Food eaten?
+    if (head.x === food.x && head.y === food.y) {
 
-addEventListener("keydown", (e) => {
+        // SCORE INCREASE ONLY WHEN FOOD IS EATEN
+        scoreValue++;
+        score.textContent = scoreValue;
 
-    if (e.key === "ArrowLeft" && direction !== "right") {
-        direction = "left";
-    } 
-    else if (e.key === "ArrowRight" && direction !== "left") {
-        direction = "right";
-    } 
-    else if (e.key === "ArrowUp" && direction !== "down") {
-        direction = "up";
-    } 
-    else if (e.key === "ArrowDown" && direction !== "up") {
-        direction = "down";
+        // update high score 
+        if (scoreValue > highScoreValue) {
+            highScoreValue = scoreValue;
+            highScore.textContent = highScoreValue;
+        }
+
+        // Generate new food position
+        food = {
+            x: Math.floor(Math.random() * rows),
+            y: Math.floor(Math.random() * cols)
+        };
+
+    } else {
+        snake.pop(); // normal movement
     }
 
+    render();
+}
+
+//  startGame()
+//  Ye function game start karta hai
+//  Important: Purana interval hamesha clear karta hai.
+function startGame() {
+    clearInterval(IntervalId);
+    IntervalId = setInterval(moveSnake, 400);
+}
+
+//  restartGame()
+//  Game ko completely new state me reset karta hai.
+function restartGame() {
+    model.style.display = "none";
+
+   // reset score
+    scoreValue = 0;
+    score.textContent = 0;
+
+    snake = [
+        { x: 1, y: 2 },
+        { x: 1, y: 3 },
+        { x: 1, y: 4 }
+    ];
+
+    food = {
+        x: Math.floor(Math.random() * rows),
+        y: Math.floor(Math.random() * cols)
+    };
+
+    direction = "right";
+
+    startGame();
+}
+
+startBtn.addEventListener('click', () => {
+    welcomeBox.style.display = "none";   // Hide welcome
+    gameOverBox.style.display = "none";  // Hide game over
+    model.style.display = "none";        // Hide overlay
+    startGame();
 });
 
-// // ab humne blocks create kar diye hai aur unko playground mein add bhi kar diya hai    
-// console.log(`Playground has ${cols} columns and ${rows} rows, total blocks: ${totalBlocks}`);
+restartBtn.addEventListener('click', restartGame);
 
-// Show number of blocks in the playground area   ...
-// ab hum yeh dekh sakte hai ki blocks sahi se create hue hai ya nahi   
-// const allBlocks = document.querySelectorAll('.block');
-// console.log(`Total blocks in DOM: ${allBlocks.length}`);    
-// // ab hum yeh dekh sakte hai ki blocks sahi se create hue hai ya nahi
-// allBlocks.forEach((block, index) => {
-//     block.textContent = index + 1; // just to visualize the blocks with numbers
-// }); 
+// Controls
+addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft" && direction !== "right") direction = "left";
+    if (e.key === "ArrowRight" && direction !== "left") direction = "right";
+    if (e.key === "ArrowUp" && direction !== "down") direction = "up";
+    if (e.key === "ArrowDown" && direction !== "up") direction = "down";
+});
