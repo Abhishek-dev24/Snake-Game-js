@@ -1,149 +1,164 @@
 /* Boliar Plate Code */
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-html , body {
-    height: 100%;
-    width: 100%;
+html,
+body {
+  height: 100%;
+  width: 100%;
 }
 
 :root {
-    /* BG Color */
-    --bg-primary-color : #0d0b0f;
-    --bg-fill-color : #efd2c5;
-    --bg-food-color : #e10d18;
+  /* BG Color */
+  --bg-primary-color: #0d0b0f;
+  --bg-fill-color: #efd2c5;
+  --bg-food-color: radial-gradient(circle, #ff4747, #c40000);
+  --bg-secondary-color: #00ff3c;
 
-    /* text color */
-    --text-primary-color : #f4efef;
+  /* text color */
+  --text-primary-color: #f4efef;
 
-    /* Padding */
-    --space-xs : 4px;
-    --space-sm : 8px;
-    --space-md : 16px;
-    --space-lg : 24px;
-    --space-xl : 32px;
-    --space-2xl : 40px;
-    --space-3xl : 48px;
+  /* Padding */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 40px;
+  --space-3xl: 48px;
 
-    /* Border Color */
-    --border-primary-color : #363535;
+  /* Border Color */
+  --border-primary-color: #363535;
 
-    /* Border Radius */
-    --border-radius-xs : 4px;
-    --border-radius-sm : 8px;
-    --border-radius-md : 12px;
-    --border-radius-lg : 16px;
-    --border-radius-xl : 20px;
-    --border-radius-2xl : 24px;
-
-
-
+  /* Border Radius */
+  --border-radius-xs: 4px;
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 20px;
+  --border-radius-2xl: 24px;
 }
 
 html {
-    background-color: var(--bg-primary-color);
-    color: var(--text-primary-color);
+  background-color: var(--bg-primary-color);
+  color: var(--text-primary-color);
 }
 
 main {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 section {
-    padding: var(--space-2xl) ;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    gap: var(--space-lg);
-} 
+  padding: var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--space-lg);
+}
 
-section, .info{
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
+section,
+.info {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
 }
 
 .data {
-    padding: var(--space-sm) var(--space-md);
-    border: 2px solid var(--border-primary-color);
-    border-radius: var(--border-radius-sm);
+  padding: var(--space-sm) var(--space-md);
+  border: 2px solid var(--border-primary-color);
+  border-radius: var(--border-radius-sm);
 }
 
 /* playgorund */
-.playground{
-    border: 2px solid var(--border-primary-color);
-    flex-grow: 1;
-    min-height: 400px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fill , minmax(30px , 1fr));  /* each block is 30px wide */
-    grid-template-rows: repeat(auto-fill , minmax(30px , 1fr)) ; /* each block is 30px tall */
-    gap: 0px;
-} 
+.playground {
+  border: 2px solid var(--border-primary-color);
+  flex-grow: 1;
+  min-height: 400px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(30px, 1fr)
+  ); /* each block is 30px wide */
+  grid-template-rows: repeat(
+    auto-fill,
+    minmax(30px, 1fr)
+  ); /* each block is 30px tall */
+  gap: 0px;
+}
 
 .block {
-    width: 30px;
-    height: 30px;
-    border: 1px solid var(--border-primary-color);
+  width: 30px;
+  height: 30px;
 }
 
 .fill {
-    background-color: var(--bg-fill-color);
+  background: linear-gradient(135deg, #00ff88, #00cc66);
+  border-radius: 8px;
+  box-shadow: 0 0 6px #00ff88;
+}
+
+.fill:first-child {
+  background: linear-gradient(135deg, #00ffaa, #00dd77);
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffcc;
 }
 
 .food {
-    background-color: var(--bg-food-color);
-}   
+  background: radial-gradient(circle at 30% 30%, #ff7575, #d60000);
+  border-radius: 50%;
+  box-shadow: 0 0 12px #ff3c3c;
+}
 
 .model {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.581);
-    backdrop-filter: blur( 4px );
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 30px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.581);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 30px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.model .start-game , 
+.model .start-game,
 .model .game-over {
-    background-color: var(--bg-primary-color); 
-    padding: var(--space-3xl);
-    border: 2px solid var(--border-primary-color);  
-    border-radius: var(--border-radius-md);
-    text-align: center;
+  background-color: var(--bg-primary-color);
+  padding: var(--space-3xl);
+  border: 2px solid var(--border-primary-color);
+  border-radius: var(--border-radius-md);
+  text-align: center;
 }
 
-.btn{
-    padding: var(--space-sm) var(--space-md);
-    margin-top: var(--space-lg);
-    font-size: 20px;
-    border: none;
-    border-radius: var(--border-radius-sm);
-    background-color: var(--bg-fill-color);
-    color: var(--bg-primary-color);
-    cursor: pointer;
-    transition: all 0.3s ease ;
+.btn {
+  padding: var(--space-sm) var(--space-md);
+  margin-top: var(--space-lg);
+  font-size: 20px;
+  border: none;
+  border-radius: var(--border-radius-sm);
+  background-color: var(--bg-fill-color);
+  color: var(--bg-primary-color);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 .btn:hover {
-    background-color: var(--bg-food-color);
-    color: var(--text-primary-color);
-    transform: scale(1.1);
+  background-color: var(--bg-food-color);
+  color: var(--text-primary-color);
+  transform: scale(1.1);
 }
 
 .model .game-over {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
 }
